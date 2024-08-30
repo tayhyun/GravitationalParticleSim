@@ -1,27 +1,30 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <vector>
 #include "physics.h"
 
+#define WIN_WIDTH 1920 // you should make these command line arguemnts if you can't figure out a way to find the resolution automagically
+#define WIN_HEIGHT 1080
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Physics Simulation by Tae Kim");
+    sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "Physics Simulation by Tae Kim");
     window.setFramerateLimit(120);
 
     std::vector<GravitySource> gravitySources;
 
-    gravitySources.push_back(GravitySource(500, 500, 7000));
+    gravitySources.push_back(GravitySource(600, 500, 7000));
     gravitySources.push_back(GravitySource(1200, 500, 7000));
 
-    int amountOfParticles = 10000;
+    int amountOfParticles = 10000; // this should also be a command line argument
 
-    Particle particles[amountOfParticles]; // this will work after you make a default consrutor
+    Particle particles[amountOfParticles];
 
     for (int i = 0; i < amountOfParticles; i++)
     {
         // adds particles to the vector
         particles[i] = Particle(600, 700, 4, 0.2 + (0.1 / amountOfParticles) * i);
-
-        // particles.push_back(Particle(600, 700, 4, 0.2 + (0.1 / amountOfParticles) * i));
+        // should make these ^^ fractions of the total window height and width insead of set points
 
         // update the particle's position, velocity and other stuff via setters since they will be nothing be default
 

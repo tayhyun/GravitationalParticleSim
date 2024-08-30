@@ -39,15 +39,21 @@ class Particle
 {
     sf::Vector2f pos;
     sf::Vector2f velocity;
-    sf::CircleShape circle; // this is const
+    sf::Color color;
+
+    // this is constant between all particles so make it static
+    constexpr static float radius = 4.0f;
+
+    // You don't need a whole circle for each particle
+    // just the pos and color
+    // sf::CircleShape circle;
 
 public:
     // make a default constructor so that you can use an array
     Particle()
-        : pos(0.0f, 0.0f), velocity(0.0f, 0.0f), circle(4.0f)
+        : pos(0.0f, 0.0f), velocity(0.0f, 0.0f)
     {
-        circle.setPosition(pos);
-        circle.setFillColor(sf::Color::White);
+        color = sf::Color::White;
     }
 
     Particle(float pos_x, float pos_y, float velocity_x, float velocity_y)
@@ -59,20 +65,22 @@ public:
         pos.x = pos_x;
         pos.y = pos_y;
 
-        circle.setPosition(pos);
-        circle.setFillColor(sf::Color::White);
-        circle.setRadius(1);
+        color = sf::Color::White;
     }
 
     void render(sf::RenderWindow &wind)
     {
+        sf::CircleShape circle(radius);
+
         circle.setPosition(pos);
+        circle.setFillColor(color);
+
         wind.draw(circle);
     }
 
-    void set_color(sf::Color &color)
+    void set_color(sf::Color &in_color)
     {
-        circle.setFillColor(color);
+        color = in_color;
     }
     void updatePhysics(GravitySource &circle)
     {
