@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -8,27 +9,27 @@ class GravitySource
     sf::CircleShape circle;
 
 public:
-    GravitySource(float pos_x, float pos_y, float strength)
+    GravitySource(float pos_x, float pos_y, float strength) // this shouldn't be "strength" b/c that is the same as the member var
     {
         pos.x = pos_x;
         pos.y = pos_y;
         this->strength = strength;
-
+        int radius = 15;
         circle.setPosition(pos);
         circle.setFillColor(sf::Color::White);
-        circle.setRadius(15);
+        circle.setRadius(radius); // make this a variable
     }
 
     void render(sf::RenderWindow &wind)
     {
         wind.draw(circle);
     }
-    sf::Vector2f get_pos()
+    const sf::Vector2f get_pos() // make this a const function
     {
         return pos;
     }
 
-    float get_strength()
+    float const get_strength() // make this a const function
     {
         return strength;
     }
@@ -38,9 +39,17 @@ class Particle
 {
     sf::Vector2f pos;
     sf::Vector2f velocity;
-    sf::CircleShape circle;
+    sf::CircleShape circle; // this is const
 
 public:
+    // make a default constructor so that you can use an array
+    Particle()
+        : pos(0.0f, 0.0f), velocity(0.0f, 0.0f), circle(4.0f)
+    {
+        circle.setPosition(pos);
+        circle.setFillColor(sf::Color::White);
+    }
+
     Particle(float pos_x, float pos_y, float velocity_x, float velocity_y)
     {
 
@@ -52,7 +61,7 @@ public:
 
         circle.setPosition(pos);
         circle.setFillColor(sf::Color::White);
-        circle.setRadius(4);
+        circle.setRadius(1);
     }
 
     void render(sf::RenderWindow &wind)

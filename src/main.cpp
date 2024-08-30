@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "header.h"
+#include "physics.h"
 
 int main()
 {
@@ -14,16 +14,20 @@ int main()
 
     int amountOfParticles = 10000;
 
-    std::vector<Particle> particles;
+    Particle particles[amountOfParticles]; // this will work after you make a default consrutor
 
     for (int i = 0; i < amountOfParticles; i++)
     {
         // adds particles to the vector
-        particles.push_back(Particle(600, 700, 4, 0.2 + (0.1 / amountOfParticles) * i));
+        particles[i] = Particle(600, 700, 4, 0.2 + (0.1 / amountOfParticles) * i);
+
+        // particles.push_back(Particle(600, 700, 4, 0.2 + (0.1 / amountOfParticles) * i));
+
+        // update the particle's position, velocity and other stuff via setters since they will be nothing be default
 
         // changing colors
         float val = (float)i / (float)amountOfParticles;
-
+        // sf::Color color = sf::Color::Red;
         sf::Color color = map_val_to_color(val);
 
         particles[i].set_color(color);
@@ -45,7 +49,7 @@ int main()
 
         for (int i = 0; i < gravitySources.size(); i++)
         {
-            for (int j = 0; j < particles.size(); j++)
+            for (int j = 0; j < amountOfParticles; j++) // particle.size() is now just amountOfParticles
             {
                 particles[j].updatePhysics(gravitySources[i]);
             }
@@ -56,7 +60,7 @@ int main()
             gravitySources[i].render(window);
         }
 
-        for (int j = 0; j < particles.size(); j++)
+        for (int j = 0; j < amountOfParticles; j++) // particle.size() is now just amountOfParticles
         {
             particles[j].render(window);
         }
